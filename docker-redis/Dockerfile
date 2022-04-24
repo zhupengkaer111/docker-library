@@ -124,6 +124,7 @@ WORKDIR /data
 RUN rm -rf /usr/lib/apt/methods/mirror*
 RUN rm -rf /usr/local/bin/redis-cli
 COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 7852
