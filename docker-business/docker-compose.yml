@@ -1,0 +1,107 @@
+version: '3.5'
+services:
+  main-server:
+    image: ${main_server_tag:-main-server:UniSmartV2.5}
+    container_name: unismart-mainserver
+    depends_on:
+      - redis
+      - kafka
+      - mysql
+    #env_file:
+    #  - .env
+    #  - secret
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - web.upload-path=/tmp/upload-file/
+      - spring.datasource.url=jdbc:mysql://unismart-mysql:3306/ulm2?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      - mainserver.addr=http://unismart-mainserver:8077/
+      - host=unismart-mainserver
+    restart: always
+    user: 1000:1000
+    networks: 
+      - unismart
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /home/unismart/upload-file:/tmp/upload-file
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3000"
+  
+  redis:
+    image: unismart-redis:6.2.4
+    container_name: unismart-redis
+    restart: always
+    user: 1999:1999
+    networks: 
+      - unismart
+    volumes:
+      - /home/unismart/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - /home/unismart/redis/data:/data
+      - /home/unismart/redis/log:/tmp/redis
+      - /home/unismart/logrotate/redis:/etc/logrotate.d/redis
+      - /etc/localtime:/etc/localtime
+    command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
+
+
+  zookeeper:
+    image: ${zookeeper_tag:-unismart-zookeeper:3.7.0}
+    container_name: unismart-zookeeper
+    restart: always
+    user: 1000:1000
+    networks: 
+      - unismart
+      
+  kafka:
+    image: ${kafka_tag:-unismart-kafka:2.13-2.8.1}
+    container_name: unismart-kafka
+    depends_on:
+      - zookeeper
+    restart: always
+    user: 2024:2024
+    expose:
+      - "32791"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - unismart
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://unismart-kafka:32791,OUTSIDE://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:32791,OUTSIDE://0.0.0.0:9093
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: ${KAFKA_AUTO_CREATE_TOPICS_ENABLE:-false}
+
+  mysql:
+    image: ${mysql_tag:-unismart-mysql:8.0.27}
+    container_name: unismart-mysql
+    restart: always
+    user: "999:999"
+    networks: 
+      - unismart
+    #volumes:
+    #  - /home/unismart/mysql/conf/profile:/etc/profile
+    #  - /etc/localtime:/etc/localtime
+    #  - /home/unismart/mysql/data:/var/lib/mysql
+    #  - /home/unismart/mysql/conf/mysqld.cnf:/etc/mysql/conf.d/mysql.cnf
+    #  - /home/unismart/mysql/log:/var/log/mysql
+    #  - /home/unismart/mysql/sql:/docker-entrypoint-initdb.d/
+    environment:
+      - MYSQL_ROOT_PASSWORD=Unilumin123*
+    command: [
+            '--character-set-server=utf8mb4',
+            '--collation-server=utf8mb4_unicode_ci',
+            '--log-raw=OFF'
+            ]
+
+networks:
+  unismart:
+    external: false
+    name: unismart
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24
+
+
