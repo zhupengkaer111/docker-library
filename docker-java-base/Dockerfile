@@ -2,7 +2,7 @@ FROM centos:centos7
 COPY --from=gosu/assets /opt/gosu /opt/gosu
 RUN set -x \
     && /opt/gosu/gosu.install.sh \
-    && rm -fr /opt/gosu
+    && rm -fr /opt/gosu \
     && yum install -y java-1.8.0-openjdk-1.8.0.292.b10-1.el7_9.x86_64 \
 	glibc-common-2.17-325.el7_9.x86_64 \
 	libxml2-2.9.1-6.el7.5.i686 \
