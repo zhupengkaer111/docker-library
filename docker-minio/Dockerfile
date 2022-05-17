@@ -32,23 +32,23 @@ RUN \
      microdnf install minisign --nodocs && \
      curl -s -q https://dl.min.io/server/minio/release/linux-${TARGETARCH}/archive/minio.${RELEASE} -o /usr/bin/minio && \
      curl -s -q https://dl.min.io/server/minio/release/linux-${TARGETARCH}/archive/minio.${RELEASE}.sha256sum -o /usr/bin/minio.sha256sum && \
-     curl -s -q https://dl.min.io/server/minio/release/linux-${TARGETARCH}/archive/minio.${RELEASE}.minisig -o /usr/bin/minio.minisig
-
-RUN  microdnf clean all && \
+     curl -s -q https://dl.min.io/server/minio/release/linux-${TARGETARCH}/archive/minio.${RELEASE}.minisig -o /usr/bin/minio.minisig && \
+     microdnf clean all && \
      chmod +x /usr/bin/minio && \
      chmod +x /usr/bin/docker-entrypoint.sh && \
-     chmod +x /usr/bin/verify-minio.sh && \
-     sh /usr/bin/verify-minio.sh && \
-     groupadd -g 3000 minio && \
-     useradd -u 3000 -g minio -s /sbin/nologin unismart -M && \
-     chown -R minio:minio /data
+     chmod +x /usr/bin/verify-minio.sh
 
-EXPOSE 9000
-
-USER minio
-
-ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
-
-VOLUME ["/data"]
-
-CMD ["minio"]
+#RUN  sh /usr/bin/verify-minio.sh && \
+#     groupadd -g 3000 minio && \
+#     useradd -u 3000 -g minio -s /sbin/nologin unismart -M && \
+#     chown -R minio:minio /data
+#
+#EXPOSE 9000
+#
+#USER minio
+#
+#ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
+#
+#VOLUME ["/data"]
+#
+#CMD ["minio"]
