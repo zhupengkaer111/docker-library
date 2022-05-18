@@ -36,18 +36,18 @@ RUN \
      microdnf clean all && \
      chmod +x /usr/bin/minio && \
      chmod +x /usr/bin/docker-entrypoint.sh && \
-     chmod +x /usr/bin/verify-minio.sh && \
+     chmod +x /usr/bin/verify-minio.sh
 #RUN  sh /usr/bin/verify-minio.sh && \
-     groupadd -g 3000 minio && \
-     useradd -u 3000 -g minio -s /sbin/nologin unismart -M && \
-     chown -R minio:minio /data
-
-EXPOSE 9000
-
-USER minio
-
-ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
-
-VOLUME ["/data"]
-
-CMD ["minio"]
+#     groupadd -g 3000 minio && \
+#     useradd -u 3000 -g minio -s /sbin/nologin unismart -M && \
+#     chown -R minio:minio /data
+#
+#EXPOSE 9000
+#
+#USER minio
+#
+#ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
+#
+#VOLUME ["/data"]
+#
+#CMD ["minio"]
