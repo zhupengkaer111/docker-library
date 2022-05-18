@@ -39,17 +39,5 @@ RUN \
      chmod +x /usr/bin/verify-minio.sh && \
      /usr/bin/verify-minio.sh && \
      groupadd -g 3000 minio && \
-     useradd -u 3000 -g minio -s /sbin/nologin minio -M && \
-#     mkdir -p /data/ && \
-#     chown -R minio:minio /data/ && \
-#     chmod 600
-#
-#EXPOSE 9000
-#
-#USER minio
-#
-#ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
-#
-#VOLUME ["/data"]
-#
-#CMD ["minio"]
+     useradd -u 3000 -g minio -s /sbin/nologin minio -M
+
