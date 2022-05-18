@@ -19,5 +19,7 @@ EXPOSE 123/udp
 # let docker know how to test container health
 HEALTHCHECK CMD chronyc tracking || exit 1
 
+RUN addgroup -g 3001 uni-ntp
+
 # start chronyd in the foreground
 ENTRYPOINT [ "/bin/sh", "/opt/startup.sh" ]
