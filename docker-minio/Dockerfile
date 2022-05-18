@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal:8.3
 
 ARG TARGETARCH=amd64
 
-ARG RELEASE=minio.RELEASE.2022-05-08T23-50-31Z
+ARG RELEASE=RELEASE.2022-05-08T23-50-31Z
 
 LABEL name="MinIO" \
       vendor="MinIO Inc <dev@min.io>" \
