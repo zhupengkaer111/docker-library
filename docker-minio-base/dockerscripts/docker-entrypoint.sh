@@ -126,3 +126,6 @@ docker_sse_encryption_env
 
 ## Switch to user if applicable.
 docker_switch_user "$@"
+
+umask 027
+minio server --console-address '0.0.0.0:9025' /data | tee /home/logs/minio_log
