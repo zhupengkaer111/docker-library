@@ -41,13 +41,12 @@ RUN \
      groupadd -g 3000 minio && \
      useradd -u 3000 -g minio -s /sbin/nologin minio -M
 
-#
-#EXPOSE 9000
-#
-#USER minio
-#
-#ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
-#
-#VOLUME ["/data"]
-#
-#CMD ["minio"]
+EXPOSE 9000
+
+USER minio
+
+ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
+
+VOLUME ["/data"]
+
+CMD ["minio"]
