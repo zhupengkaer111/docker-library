@@ -10,7 +10,7 @@ LABEL documentation="https://github.com/cturra/docker-ntp"
 # install chrony
 RUN apk add --no-cache chrony
 RUN addgroup -g 3001 uni-ntp
-RUN adduser -u 3001 -g uni-ntp -s /sbin/nologin uni-ntp -M
+RUN adduser -u 3001 -G uni-ntp -s /sbin/nologin uni-ntp
 
 # script to configure/startup chrony (ntp)
 COPY assets/startup.sh /opt/startup.sh
