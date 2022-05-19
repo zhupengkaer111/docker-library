@@ -26,9 +26,10 @@ RUN set -eux; \
 	gosu --version; \
 	gosu nobody true
 
-ENV REDIS_VERSION 6.2.6
-ENV REDIS_DOWNLOAD_URL http://download.redis.io/releases/redis-6.2.6.tar.gz
+ENV REDIS_VERSION 6.2.7
+ENV REDIS_DOWNLOAD_URL http://download.redis.io/releases/redis-6.2.7.tar.gz
 ENV REDIS_DOWNLOAD_SHA 5b2b8b7a50111ef395bf1c1d5be11e6e167ac018125055daa8b5c2317ae131ab
+COPY docker-entrypoint.sh /usr/local/bin/
 
 RUN set -eux; \
 	\
@@ -107,25 +108,7 @@ RUN set -eux; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	\
 	redis-cli --version; \
-	redis-server --version
-RUN apt-get update
-RUN apt-get install -y procps
-
-COPY redis.conf /usr/local/etc/redis/redis.conf
-RUN chown redis:redis /usr/local/bin/*
-RUN chmod 700 /usr/local/bin/*
-RUN mkdir /data
-RUN touch /data/dump.rdb
-RUN chmod 600 /data/dump.rdb
-RUN chown redis:redis /data
-VOLUME /data
-WORKDIR /data
-
-RUN rm -rf /usr/lib/apt/methods/mirror*
-RUN rm -rf /usr/local/bin/redis-cli
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
-
-EXPOSE 7852
-CMD ["redis-server"]
+	redis-server --version; \
+	apt-get update; \
+    apt-get install -y procps; \
+    chmod +x /usr/local/bin/docker-entrypoint.sh
