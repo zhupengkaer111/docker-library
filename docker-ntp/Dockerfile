@@ -9,8 +9,8 @@ LABEL documentation="https://github.com/cturra/docker-ntp"
 
 # install chrony
 RUN apk add --no-cache chrony \
-    && addgroup -g 3001 uni-ntp
-    && adduser -u 3001 -g uni-ntp -s /sbin/nologin uni-ntp -M
+RUN addgroup -g 3001 uni-ntp
+RUN adduser -u 3001 -g uni-ntp -s /sbin/nologin uni-ntp -M
 
 # script to configure/startup chrony (ntp)
 COPY assets/startup.sh /opt/startup.sh
@@ -20,8 +20,6 @@ EXPOSE 123/udp
 
 # let docker know how to test container health
 HEALTHCHECK CMD chronyc tracking || exit 1
-
-RUN addgroup -g 3001 uni-ntp
 
 # start chronyd in the foreground
 ENTRYPOINT [ "/bin/sh", "/opt/startup.sh" ]
