@@ -108,7 +108,4 @@ RUN set -eux; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	\
 	redis-cli --version; \
-	redis-server --version; \
-	apt-get update; \
-    apt-get install -y procps; \
-    chmod +x /usr/local/bin/docker-entrypoint.sh
+	redis-server --version;
