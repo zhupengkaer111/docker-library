@@ -13,8 +13,17 @@ ENV ZOO_CONF_DIR=/conf \
     ZOO_STANDALONE_ENABLED=true \
     ZOO_ADMINSERVER_ENABLED=true
 
-# Install required packges
+ARG GPG_KEY=BBE7232D7991050B54C8EA0ADC08637CA615D22C
+ARG SHORT_DISTRO_NAME=zookeeper-3.8.0
+ARG DISTRO_NAME=apache-zookeeper-3.8.0-bin
+
+# Add a user with an explicit UID/GID and create necessary directories
 RUN set -eux; \
+    groupadd -r zookeeper --gid=1000; \
+    useradd -r -g zookeeper --uid=1000 zookeeper; \
+    mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"; \
+    chown zookeeper:zookeeper "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"; \
+# Install required packges
     apt-get update; \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
@@ -26,14 +35,8 @@ RUN set -eux; \
         wget; \
     rm -rf /var/lib/apt/lists/*; \
 # Verify that gosu binary works
-    gosu nobody true
-
-ARG GPG_KEY=BBE7232D7991050B54C8EA0ADC08637CA615D22C
-ARG SHORT_DISTRO_NAME=zookeeper-3.8.0
-ARG DISTRO_NAME=apache-zookeeper-3.8.0-bin
-
+    gosu nobody true; \
 # Download Apache Zookeeper, verify its PGP signature, untar and clean up
-RUN set -eux; \
     ddist() { \
         local f="$1"; shift; \
         local distFile="$1"; shift; \
@@ -61,16 +64,8 @@ RUN set -eux; \
     gpg --batch --verify "$DISTRO_NAME.tar.gz.asc" "$DISTRO_NAME.tar.gz"; \
     tar -zxf "$DISTRO_NAME.tar.gz"; \
     mv "$DISTRO_NAME/conf/"* "$ZOO_CONF_DIR"; \
-    rm -rf "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc";
-
-# Add a user with an explicit UID/GID and create necessary directories
-RUN set -eux; \
-    groupadd -r zookeeper --gid=1000; \
-    useradd -r -g zookeeper --uid=1000 zookeeper; \
-    mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR";
-#    chown zookeeper:zookeeper "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"; \
-#    chown -R zookeeper:zookeeper "/$DISTRO_NAME"
-
+    rm -rf "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc"; \
+    chown -R zookeeper:zookeeper "/$DISTRO_NAME"
 
 WORKDIR $DISTRO_NAME
 VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR", "$ZOO_LOG_DIR"]
