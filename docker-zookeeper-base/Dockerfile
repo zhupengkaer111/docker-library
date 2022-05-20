@@ -15,8 +15,6 @@ ENV ZOO_CONF_DIR=/conf \
 
 # Add a user with an explicit UID/GID and create necessary directories
 RUN set -eux; \
-    groupadd -r zookeeper --gid=1000; \
-    useradd -r -g zookeeper --uid=1000 zookeeper; \
     mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"; \
     chown zookeeper:zookeeper "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"
 
@@ -68,8 +66,7 @@ RUN set -eux; \
     gpg --batch --verify "$DISTRO_NAME.tar.gz.asc" "$DISTRO_NAME.tar.gz"; \
     tar -zxf "$DISTRO_NAME.tar.gz"; \
     mv "$DISTRO_NAME/conf/"* "$ZOO_CONF_DIR"; \
-    rm -rf "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc"; \
-    chown -R zookeeper:zookeeper "/$DISTRO_NAME"
+    rm -rf "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc";
 
 WORKDIR $DISTRO_NAME
 VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR", "$ZOO_LOG_DIR"]
