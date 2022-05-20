@@ -15,6 +15,7 @@ ENV ZOO_CONF_DIR=/conf \
 
 # Install required packges
 RUN set -eux; \
+    mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"; \
     apt-get update; \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
