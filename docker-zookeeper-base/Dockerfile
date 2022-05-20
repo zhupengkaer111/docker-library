@@ -13,10 +13,6 @@ ENV ZOO_CONF_DIR=/conf \
     ZOO_STANDALONE_ENABLED=true \
     ZOO_ADMINSERVER_ENABLED=true
 
-# Add a user with an explicit UID/GID and create necessary directories
-RUN set -eux; \
-    mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR";
-
 # Install required packges
 RUN set -eux; \
     apt-get update; \
