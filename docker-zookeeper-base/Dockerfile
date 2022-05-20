@@ -19,10 +19,9 @@ ARG DISTRO_NAME=apache-zookeeper-3.8.0-bin
 
 # Add a user with an explicit UID/GID and create necessary directories
 RUN set -eux; \
-    groupadd -r zookeeper --gid=1000; \
-    useradd -r -g zookeeper --uid=1000 zookeeper; \
+    useradd -u 3004 -s /sbin/nologin uni-zookeeper -M; \
     mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"; \
-    chown zookeeper:zookeeper "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"; \
+    chown uni-zookeeper:uni-zookeeper "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZOO_LOG_DIR"; \
 # Install required packges
     apt-get update; \
     DEBIAN_FRONTEND=noninteractive \
@@ -65,7 +64,7 @@ RUN set -eux; \
     tar -zxf "$DISTRO_NAME.tar.gz"; \
     mv "$DISTRO_NAME/conf/"* "$ZOO_CONF_DIR"; \
     rm -rf "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc"; \
-    chown -R zookeeper:zookeeper "/$DISTRO_NAME"
+    chown -R uni-zookeeper:uni-zookeeper "/$DISTRO_NAME"
 
 WORKDIR $DISTRO_NAME
 VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR", "$ZOO_LOG_DIR"]
