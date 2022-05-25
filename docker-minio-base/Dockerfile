@@ -38,6 +38,5 @@ RUN \
      chmod +x /usr/bin/docker-entrypoint.sh && \
      chmod +x /usr/bin/verify-minio.sh && \
      /usr/bin/verify-minio.sh && \
-     groupadd -g 3000 minio && \
-     useradd -u 3000 -g minio -s /sbin/nologin minio -M
+     useradd -u 3000 -s /sbin/nologin minio -M
 
