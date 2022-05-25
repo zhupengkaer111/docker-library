@@ -61,7 +61,7 @@ RUN set -eux; \
 	rm -rf "$GNUPGHOME"
 
 ENV MYSQL_MAJOR 8.0
-ENV MYSQL_VERSION 8.0.28-1debian10
+ENV MYSQL_VERSION 8.0.29-1debian10
 
 RUN echo 'deb [ signed-by=/etc/apt/keyrings/mysql.gpg ] http://repo.mysql.com/apt/debian/ buster mysql-8.0' > /etc/apt/sources.list.d/mysql.list
 
@@ -84,6 +84,6 @@ RUN { \
 # ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
 	&& chmod 1777 /var/run/mysqld /var/lib/mysql
 
-RUN apt-get update; \
+RUN apt-get update;\
     apt-get install -y procps; \
     rm -rf /usr/lib/apt/methods/mirror*
