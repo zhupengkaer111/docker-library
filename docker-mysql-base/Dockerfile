@@ -7,7 +7,7 @@
 FROM debian:buster-slim
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN useradd -u 3007 -s /sbin/nologin uni-mysql -M; \
+RUN useradd -u 3007 -s /sbin/nologin mysql -M; \
     apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr && rm -rf /var/lib/apt/lists/*
 
 # add gosu for easy step-down from root
@@ -80,7 +80,7 @@ RUN { \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql /var/run/mysqld /var/log/mysql/ \
 	$$ touch /var/log/mysql/error.log \
-	&& chown -R uni-mysql:uni-mysql /var/lib/mysql /var/run/mysqld /var/log/mysql/ \
+	&& chown -R mysql:mysql /var/lib/mysql /var/run/mysqld /var/log/mysql/ \
 # ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
 	&& chmod 1777 /var/run/mysqld /var/lib/mysql
 
