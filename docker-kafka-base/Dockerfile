@@ -54,4 +54,4 @@ RUN set -eux ; \
 
 COPY overrides /opt/overrides
 
-VOLUME ["/kafka"]
+
