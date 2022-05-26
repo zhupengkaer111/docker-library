@@ -78,9 +78,8 @@ RUN { \
 		mysql-community-client="${MYSQL_VERSION}" \
 		mysql-community-server-core="${MYSQL_VERSION}" \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql /var/run/mysqld /var/log/mysql/ \
-	$$ touch /var/log/mysql/error.log \
-	&& chown -R mysql:mysql /var/lib/mysql /var/run/mysqld /var/log/mysql/ \
+	&& rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql /var/run/mysqld \
+	&& chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \
 # ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
 	&& chmod 1777 /var/run/mysqld /var/lib/mysql
 
