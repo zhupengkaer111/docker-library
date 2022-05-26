@@ -34,8 +34,9 @@ RUN set -eux ; \
   		$(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null ; \
     apt-get update ; \
     apt-get install -y --no-install-recommends docker-ce-cli ; \
-    apt remove -y gnupg lsb-release ; \
-    apt clean ; \
+    apt remove -y gnupg lsb-release ;
+
+RUN apt clean ; \
     apt autoremove -y ; \
     apt -f install ; \
 ### END docker for CI tests
