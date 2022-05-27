@@ -41,7 +41,7 @@ if [[ -z "$KAFKA_BROKER_ID" ]]; then
 fi
 
 if [[ -z "$KAFKA_LOG_DIRS" ]]; then
-    export KAFKA_LOG_DIRS="/kafka/kafka-logs"
+    export KAFKA_LOG_DIRS="/home/kafka/kafka-logs"
 fi
 
 if [[ -n "$KAFKA_HEAP_OPTS" ]]; then
