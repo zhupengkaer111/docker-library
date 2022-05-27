@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+umask 027
 # Allow specific kafka versions to perform any unique bootstrap operations
 OVERRIDE_FILE="/opt/overrides/${KAFKA_VERSION}.sh"
 if [[ -x "$OVERRIDE_FILE" ]]; then
@@ -26,7 +27,7 @@ if [[ -z "$KAFKA_ADVERTISED_PORT" && \
   -z "$KAFKA_LISTENERS" && \
   -z "$KAFKA_ADVERTISED_LISTENERS" && \
   -S /var/run/docker.sock ]]; then
-    KAFKA_ADVERTISED_PORT=$(docker port "$(hostname)" $KAFKA_PORT | sed -r 's/.*:(.*)/\1/g' | head -n1) 
+    KAFKA_ADVERTISED_PORT=$(docker port "$(hostname)" $KAFKA_PORT | sed -r 's/.*:(.*)/\1/g' | head -n1)
     export KAFKA_ADVERTISED_PORT
 fi
 
@@ -41,7 +42,7 @@ if [[ -z "$KAFKA_BROKER_ID" ]]; then
 fi
 
 if [[ -z "$KAFKA_LOG_DIRS" ]]; then
-    export KAFKA_LOG_DIRS="/home/kafka/kafka-logs"
+    export KAFKA_LOG_DIRS="/kafka/kafka-logs"
 fi
 
 if [[ -n "$KAFKA_HEAP_OPTS" ]]; then
