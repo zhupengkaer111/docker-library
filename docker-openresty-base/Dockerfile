@@ -35,9 +35,7 @@ LABEL resty_rpm_arch="${RESTY_RPM_ARCH}"
 RUN  find /etc/yum.repos.d -name 'CentOS-Linux-*' -exec sed -i 's/mirrorlist/#mirrorlist/g' {} \; \
     && find /etc/yum.repos.d -name 'CentOS-Linux-*' -exec sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' {} \; \
     && groupadd -g $UNISMART_NGINX_GID $UNISMART_NGINX_NAME \
-    &&	useradd -m -u $UNISMART_NGINX_UID -g $UNISMART_NGINX_GID -G $UNISMART_ROOT_GROUP -o -s /sbin/nologin $UNISMART_NGINX_NAME \
-    &&	su $UNISMART_NGINX_NAME \
-    &&	usermod -s /sbin/nologin $UNISMART_NGINX_NAME \
+    &&	useradd -m -u $UNISMART_NGINX_UID -g $UNISMART_NGINX_GID -G $UNISMART_ROOT_GROUP -s /sbin/nologin $UNISMART_NGINX_NAME \
     &&	yum install -y yum-utils \
     &&	yum-config-manager --add-repo ${RESTY_YUM_REPO} \
     &&	yum install -y \
