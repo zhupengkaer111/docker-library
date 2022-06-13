@@ -72,4 +72,6 @@ RUN cd	/tmp \
     &&	ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log \
     &&	yum remove -y gcc \
 	gcc-c++ \
-    &&	rm -rf /usr/bin/readelf
+    &&	rm -rf /usr/bin/readelf \
+    &&	yum update -y \
+    &&	yum clean all
