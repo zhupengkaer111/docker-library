@@ -9,5 +9,4 @@ LABEL documentation="https://github.com/cturra/docker-ntp"
 
 # install chrony
 RUN apk add --no-cache chrony; \
-    apk update; \
-    rm -rf /var/lib/apk/*;
+    apk update --no-cache;
