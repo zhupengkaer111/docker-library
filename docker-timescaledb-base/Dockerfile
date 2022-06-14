@@ -7,8 +7,9 @@ RUN apk update --no-cache; \
             openssl-dev \
             tar; \
     cd /home; \
-    git clone https://github.com/pgaudit/pgaudit.git && \
-    cd pgaudit && \
+    git clone https://github.com/pgaudit/pgaudit.git; \
+    cd pgaudit; \
+    git checkout REL_13_STABLE; \
     apk add --no-cache --virtual .build-deps \
     		bison \
     		coreutils \
