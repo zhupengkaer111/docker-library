@@ -33,8 +33,6 @@ RUN apk update --no-cache; \
     		util-linux-dev \
     		zlib-dev \
     		icu-dev; \
-    make install USE_PGXS=1 PG_CONFIG=/usr/local/bin/pg_config; \
-    apk del .fetch-deps .build-deps; \
-    rm -rf /home/pgaudit;
+    make install USE_PGXS=1 PG_CONFIG=/usr/local/bin/pg_config;
 
 
