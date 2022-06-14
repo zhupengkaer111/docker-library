@@ -35,6 +35,6 @@ RUN apk update --no-cache; \
     		icu-dev; \
     make install USE_PGXS=1 PG_CONFIG=/usr/local/bin/pg_config; \
     apk del .fetch-deps .build-deps; \
-    rm -rf pgaudit;
+    rm -rf /home/pgaudit;
 
 
