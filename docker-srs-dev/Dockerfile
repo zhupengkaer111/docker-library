@@ -48,8 +48,8 @@ ADD srt-1.4.1.tar.gz /tmp
 RUN cd /tmp/srt-1.4.1 && ./configure --disable-shared --enable-static && make -j${JOBS} && make install
 
 # Build FFmpeg, static link libraries.
-ADD ffmpeg-5.0.tar.gz /tmp
-RUN cd /tmp/ffmpeg-5.0 && ./configure --enable-pthreads --extra-libs=-lpthread \
+ADD FFmpeg-release-5.1.tar.gz /tmp
+RUN cd /tmp/FFmpeg-release-5.1 && ./configure --enable-pthreads --extra-libs=-lpthread \
         --enable-gpl --enable-nonfree \
         --enable-postproc --enable-bzlib --enable-zlib \
         --enable-libx264 --enable-libmp3lame --enable-libfdk-aac \
