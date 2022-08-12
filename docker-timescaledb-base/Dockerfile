@@ -1,4 +1,4 @@
-FROM timescale/timescaledb:2.7.0-pg13
+FROM timescale/timescaledb:2.7.2-pg14
 RUN apk update --no-cache; \
     apk add --no-cache --virtual .fetch-deps \
             ca-certificates \
