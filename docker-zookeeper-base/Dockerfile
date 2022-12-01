@@ -53,8 +53,8 @@ RUN set -eux; \
             fi; \
         done; \
         [ -n "$success" ]; \
-    }; \
-    ddist "$DISTRO_NAME.tar.gz" "zookeeper/$SHORT_DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
+    };
+RUN ddist "$DISTRO_NAME.tar.gz" "zookeeper/$SHORT_DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
     ddist "$DISTRO_NAME.tar.gz.asc" "zookeeper/$SHORT_DISTRO_NAME/$DISTRO_NAME.tar.gz.asc"; \
     export GNUPGHOME="$(mktemp -d)"; \
     gpg --keyserver hkps://keyserver.pgp.com --recv-key "$GPG_KEY" || \
