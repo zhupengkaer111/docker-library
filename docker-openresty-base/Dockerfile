@@ -74,4 +74,5 @@ RUN cd	/tmp \
 	gcc-c++ \
     &&	rm -rf /usr/bin/readelf \
     &&	yum update -y \
+    &&	yum update -y yum -y install vixie-cron crontabs \
     &&	yum clean all
