@@ -74,5 +74,4 @@ RUN cd	/tmp \
 	gcc-c++ \
     &&	rm -rf /usr/bin/readelf \
     &&	yum update -y \
-    &&	yum -y install crontabs \
     &&	yum clean all
